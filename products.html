@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechShop | Hardware & Supplies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #38bdf8;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 40px;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--accent); }
+        
+        .cart-icon { position: relative; cursor: pointer; font-size: 1.2rem; }
+        #cart-count {
+            position: absolute; top: -10px; right: -10px;
+            background: #ef4444; color: white;
+            font-size: 0.7rem; padding: 2px 6px; border-radius: 50%;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Product Card */
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--accent);
+        }
+
+        .product-info { padding: 20px; }
+        
+        .category { font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+        .product-title { font-size: 1.1rem; margin: 10px 0; }
+        .price { font-size: 1.3rem; font-weight: bold; color: #fff; margin-bottom: 15px; }
+
+        .buy-btn {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .buy-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><i class="fas fa-microchip"></i> TECH<span style="color:white">SHOP</span></div>
+        <div class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <div class="product-grid" id="product-container">
+        </div>
+
+    <script>
+        /* --- DATA & LOGIC --- */
+        const products = [
+            { id: 1, name: "Mechanical Keyboard RGB", price: 89.99, cat: "Peripherals", icon: "fa-keyboard" },
+            { id: 2, name: "NVMe SSD 1TB Gen4", price: 124.50, cat: "Storage", icon: "fa-hdd" },
+            { id: 3, name: "Liquid CPU Cooler", price: 155.00, cat: "Cooling", icon: "fa-fan" },
+            { id: 4, name: "Gaming Mouse 16k DPI", price: 59.99, cat: "Peripherals", icon: "fa-mouse" },
+            { id: 5, name: "DDR5 RAM 32GB Kit", price: 199.99, cat: "Memory", icon: "fa-memory" },
+            { id: 6, name: "Ultra-Wide 4K Monitor", price: 449.00, cat: "Display", icon: "fa-tv" }
+        ];
+
+        let cartCount = 0;
+
+        function renderProducts() {
+            const container = document.getElementById('product-container');
+            container.innerHTML = products.map(p => `
+                <div class="product-card">
+                    <div class="image-placeholder">
+                        <i class="fas ${p.icon}"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="category">${p.cat}</span>
+                        <h3 class="product-title">${p.name}</h3>
+                        <p class="price">$${p.price.toFixed(2)}</p>
+                        <button class="buy-btn" onclick="addToCart()">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart() {
+            cartCount++;
+            document.getElementById('cart-count').innerText = cartCount;
+        }
+
+        // Initialize page
+        renderProducts();
+    </script>
+</body>
+</html>
