@@ -99,6 +99,30 @@ p { color: #ccc; font-size: 0.9rem; margin-bottom: 30px; }
 .signup-link { margin-top: 20px; }
 .signup-link a { color: #00d2ff; text-decoration: none; }
        
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#togglePassword {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    cursor: pointer;
+    color: #888;
+    transition: 0.3s;
+    z-index: 2;
+}
+
+#togglePassword:hover {
+    color: #00d2ff;
+}
+
+.input-group input {
+    padding-right: 30px;
+}
+       
    </style>
     
     <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
