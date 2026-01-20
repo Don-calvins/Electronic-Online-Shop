@@ -139,6 +139,74 @@
     </div>
 
     <script>
+        const products = [
+            { id: 1, name: "Cloud-Link Router", price: 120, icon: "fa-wifi" },
+            { id: 2, name: "Sky-Series Monitor", price: 350, icon: "fa-desktop" },
+            { id: 3, name: "Ultra-Light Laptop", price: 999, icon: "fa-laptop" },
+            { id: 4, name: "Wireless Earbuds", price: 150, icon: "fa-headphones" }
+        ];
+
+        // Load cart from LocalStorage on startup
+        let cart = JSON.parse(localStorage.getItem('techShopCart')) || [];
+
+        function renderProducts(items) {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = items.map(p => `
+                <div class="product-card">
+                    <div class="img-box"><i class="fas ${p.icon}"></i></div>
+                    <h3>${p.name}</h3>
+                    <p class="price">$${p.price}</p>
+                    <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+                </div>
+            `).join('');
+            updateUI();
+        }
+
+        function addToCart(id) {
+            const item = products.find(p => p.id === id);
+            cart.push(item);
+            saveAndRefresh();
+        }
+
+        function saveAndRefresh() {
+            localStorage.setItem('techShopCart', JSON.stringify(cart));
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const list = document.getElementById('cartList');
+            list.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>$${item.price}</span>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, i) => sum + i.price, 0);
+            document.getElementById('totalPrice').innerText = `$${total}`;
+        }
+
+        function toggleModal() {
+            const m = document.getElementById('cartModal');
+            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function handleSearch(input) {
+            const term = input.value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(term));
+            renderProducts(filtered);
+        }
+
+        function checkout() {
+            alert("Redirecting to payment...");
+            cart = [];
+            saveAndRefresh();
+            toggleModal();
+        }
+
+        // Initial render
+        renderProducts(products);
 
 // Function to remove a specific item by its index in the cart array
 function removeFromCart(index) {
