@@ -3,193 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechPro | Electronic Surplus</title>
+    <title>TechPro | Sky Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-  <div id="cartModal" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Your Tech Bin</h2>
-            <i class="fas fa-times close-modal" onclick="toggleModal()"></i>
-        </div>
-        <div id="cart-items-list">
-            </div>
-        <div class="modal-footer">
-            <div class="total-row">
-                <span>Estimated Total (Tax Incl.):</span>
-                <span id="total-price">$0.00</span>
-            </div>
-            <button class="checkout-btn" onclick="processOrder()">Complete Purchase</button>
-        </div>
-    </div>
-</div>
-
-<style>
-    /* --- Modal CSS --- */
-    .modal-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
-        display: none; justify-content: center; align-items: center; z-index: 1000;
-    }
-
-    .modal-content {
-        background: var(--bg-card); width: 90%; max-width: 500px;
-        border-radius: 20px; padding: 30px; border: 1px solid var(--accent);
-        box-shadow: 0 0 30px var(--accent-glow);
-    }
-
-    .modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
-    .close-modal { cursor: pointer; color: var(--text-dim); font-size: 1.5rem; }
-
-    .cart-item {
-        display: flex; justify-content: space-between; align-items: center;
-        padding: 15px 0; border-bottom: 1px solid #334155;
-    }
-
-    .total-row {
-        display: flex; justify-content: space-between; font-weight: bold;
-        font-size: 1.2rem; margin: 25px 0; border-top: 2px solid var(--accent); padding-top: 15px;
-    }
-
-    .checkout-btn {
-        width: 100%; padding: 15px; background: var(--accent);
-        border: none; border-radius: 10px; font-weight: 800; cursor: pointer;
-    }
-</style>
-
-<script>
-    /* --- Updated JS Logic --- */
-    let cart = [];
-
-    function updateCart(id) {
-        const item = products.find(p => p.id === id);
-        cart.push(item);
-        document.getElementById('cart-count').innerText = cart.length;
-        renderCart();
-    }
-
-    function toggleModal() {
-        const modal = document.getElementById('cartModal');
-        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-    }
-
-    function renderCart() {
-        const list = document.getElementById('cart-items-list');
-        const totalEl = document.getElementById('total-price');
-        
-        if (cart.length === 0) {
-            list.innerHTML = "<p style='text-align:center; color:gray;'>Your cart is empty.</p>";
-            totalEl.innerText = "$0.00";
-            return;
+    <style>
+        :root {
+            --sky-bg: #f0f9ff; /* Very light sky blue */
+            --primary-blue: #0ea5e9; /* Sky blue accent */
+            --white: #ffffff;
+            --text-dark: #0f172a;
+            --text-gray: #64748b;
+            --border: #e2e8f0;
         }
 
-        list.innerHTML = cart.map((item, index) => `
-            <div class="cart-item">
-                <div>
-                    <strong>${item.name}</strong><br>
-                    <small style="color:var(--accent)">${item.cat}</small>
-                </div>
-                <span>$${item.price}</span>
-            </div>
-        `).join('');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: var(--sky-bg); color: var(--text-dark); }
 
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        totalEl.innerText = `$${total.toFixed(2)}`;
-    }
+        /* --- Navigation --- */
+        nav {
+            background: var(--white);
+            padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 100;
+        }
 
-    function processOrder() {
-        alert("Order Initialized! Redirecting to secure payment gateway...");
-        cart = [];
-        document.getElementById('cart-count').innerText = "0";
-        toggleModal();
-        renderCart();
-    }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary-blue); }
+        
+        .search-bar {
+            flex: 0.5; padding: 10px 15px;
+            border: 1px solid var(--border); border-radius: 8px;
+            outline: none; background: var(--sky-bg);
+        }
 
-    // Connect the cart icon in the Nav to the modal
-    document.querySelector('.fa-shopping-cart').parentElement.onclick = toggleModal;
-</script>
+        /* --- Product Cards --- */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        
+        .product-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: var(--white); border-radius: 12px;
+            padding: 20px; border: 1px solid var(--border);
+            transition: 0.3s ease; text-align: center;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .img-box {
+            height: 150px; background: var(--sky-bg); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; color: var(--primary-blue); margin-bottom: 15px;
+        }
+
+        .price { font-size: 1.4rem; font-weight: bold; color: var(--text-dark); margin: 10px 0; }
+
+        .add-btn {
+            background: var(--primary-blue); color: white; border: none;
+            width: 100%; padding: 12px; border-radius: 8px;
+            font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+
+        .add-btn:hover { background: #0284c7; }
+
+        /* --- Checkout Modal --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.5); display: none; 
+            justify-content: center; align-items: center; z-index: 200;
+        }
+
+        .modal-content {
+            background: var(--white); width: 400px; padding: 30px;
+            border-radius: 15px; position: relative;
+        }
+
+        .cart-item {
+            display: flex; justify-content: space-between; 
+            padding: 10px 0; border-bottom: 1px solid var(--border);
+        }
+    </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">TECH<span style="color:white">PRO</span></div>
-        <div class="search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search components, peripherals, gear..." onkeyup="filterProducts()">
-        </div>
-        <div style="font-size: 1.2rem; cursor: pointer;">
-            <i class="fas fa-shopping-cart"></i>
-            <span id="cart-count" style="color:var(--accent)">0</span>
+        <div class="logo"><i class="fas fa-bolt"></i> SKYTECH</div>
+        <input type="text" class="search-bar" placeholder="Search for hardware..." onkeyup="handleSearch(this)">
+        <div style="cursor: pointer;" onclick="toggleModal()">
+            <i class="fas fa-shopping-basket" style="font-size: 1.4rem; color: var(--primary-blue);"></i>
+            <span id="cart-count" style="font-weight: bold;">0</span>
         </div>
     </nav>
 
     <div class="container">
-        <div class="filter-bar">
-            <button class="filter-btn active" onclick="setCategory('All', this)">All</button>
-            <button class="filter-btn" onclick="setCategory('Storage', this)">Storage</button>
-            <button class="filter-btn" onclick="setCategory('Peripherals', this)">Peripherals</button>
-            <button class="filter-btn" onclick="setCategory('PC Parts', this)">PC Parts</button>
-        </div>
+        <h2 style="margin-bottom: 25px;">Available Inventory</h2>
+        <div class="product-grid" id="grid"></div>
+    </div>
 
-        <div class="product-grid" id="productGrid">
+    <div id="cartModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Your Cart</h3>
+            <div id="cartList" style="margin: 20px 0;"></div>
+            <div style="font-weight: bold; display: flex; justify-content: space-between;">
+                <span>Total:</span> <span id="totalPrice">$0.00</span>
             </div>
+            <button class="add-btn" style="margin-top: 20px;" onclick="checkout()">Checkout Now</button>
+            <button onclick="toggleModal()" style="margin-top: 10px; background:none; border:none; color:gray; width:100%; cursor:pointer;">Close</button>
+        </div>
     </div>
 
     <script>
         const products = [
-            { id: 1, name: "Mechanical Keyboard", price: 89, cat: "Peripherals", icon: "fa-keyboard", stock: "In Stock" },
-            { id: 2, name: "M.2 NVMe SSD 2TB", price: 159, cat: "Storage", icon: "fa-hdd", stock: "In Stock" },
-            { id: 3, name: "RTX 4070 GPU", price: 599, cat: "PC Parts", icon: "fa-microchip", stock: "Hot" },
-            { id: 4, name: "Wireless Gaming Mouse", price: 45, cat: "Peripherals", icon: "fa-mouse", stock: "In Stock" },
-            { id: 5, name: "External Hard Drive", price: 75, cat: "Storage", icon: "fa-save", stock: "Sale" },
-            { id: 6, name: "RGB Case Fan (3 Pack)", price: 35, cat: "PC Parts", icon: "fa-fan", stock: "In Stock" }
+            { id: 1, name: "Cloud-Link Router", price: 120, icon: "fa-wifi" },
+            { id: 2, name: "Sky-Series Monitor", price: 350, icon: "fa-desktop" },
+            { id: 3, name: "Ultra-Light Laptop", price: 999, icon: "fa-laptop" },
+            { id: 4, name: "Wireless Earbuds", price: 150, icon: "fa-headphones" }
         ];
 
-        let currentCategory = 'All';
-        let cartCount = 0;
+        // Load cart from LocalStorage on startup
+        let cart = JSON.parse(localStorage.getItem('techShopCart')) || [];
 
-        function renderProducts(data) {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = data.map(p => `
+        function renderProducts(items) {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = items.map(p => `
                 <div class="product-card">
-                    <span class="badge">${p.stock}</span>
-                    <div class="img-area"><i class="fas ${p.icon}"></i></div>
-                    <p style="color: var(--accent); font-size: 0.8rem;">${p.cat}</p>
-                    <h3 style="margin: 5px 0;">${p.name}</h3>
-                    <div class="price-row">
-                        <span class="price">$${p.price}</span>
-                        <button class="add-btn" onclick="updateCart()">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
+                    <div class="img-box"><i class="fas ${p.icon}"></i></div>
+                    <h3>${p.name}</h3>
+                    <p class="price">$${p.price}</p>
+                    <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
                 </div>
             `).join('');
+            updateUI();
         }
 
-        function setCategory(cat, btn) {
-            currentCategory = cat;
-            // Update active button UI
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            filterProducts();
+        function addToCart(id) {
+            const item = products.find(p => p.id === id);
+            cart.push(item);
+            saveAndRefresh();
         }
 
-        function filterProducts() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = products.filter(p => {
-                const matchesCat = currentCategory === 'All' || p.cat === currentCategory;
-                const matchesSearch = p.name.toLowerCase().includes(searchTerm);
-                return matchesCat && matchesSearch;
-            });
+        function saveAndRefresh() {
+            localStorage.setItem('techShopCart', JSON.stringify(cart));
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const list = document.getElementById('cartList');
+            list.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>$${item.price}</span>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, i) => sum + i.price, 0);
+            document.getElementById('totalPrice').innerText = `$${total}`;
+        }
+
+        function toggleModal() {
+            const m = document.getElementById('cartModal');
+            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function handleSearch(input) {
+            const term = input.value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(term));
             renderProducts(filtered);
         }
 
-        function updateCart() {
-            cartCount++;
-            document.getElementById('cart-count').innerText = cartCount;
+        function checkout() {
+            alert("Redirecting to payment...");
+            cart = [];
+            saveAndRefresh();
+            toggleModal();
         }
 
-        // Initial Load
+        // Initial render
         renderProducts(products);
     </script>
 </body>
