@@ -87,6 +87,27 @@
             display: flex; justify-content: space-between; 
             padding: 10px 0; border-bottom: 1px solid var(--border);
         }
+        /* --- Add to your CSS --- */
+.remove-btn {
+    background: none;
+    border: none;
+    color: #ef4444; /* Alert/Red color */
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px;
+    transition: 0.2s;
+}
+
+.remove-btn:hover {
+    color: #dc2626;
+    transform: scale(1.2);
+}
+
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+}
+        
     </style>
 </head>
 <body>
@@ -118,74 +139,49 @@
     </div>
 
     <script>
-        const products = [
-            { id: 1, name: "Cloud-Link Router", price: 120, icon: "fa-wifi" },
-            { id: 2, name: "Sky-Series Monitor", price: 350, icon: "fa-desktop" },
-            { id: 3, name: "Ultra-Light Laptop", price: 999, icon: "fa-laptop" },
-            { id: 4, name: "Wireless Earbuds", price: 150, icon: "fa-headphones" }
-        ];
 
-        // Load cart from LocalStorage on startup
-        let cart = JSON.parse(localStorage.getItem('techShopCart')) || [];
+// Function to remove a specific item by its index in the cart array
+function removeFromCart(index) {
+    // Remove 1 element at the specified index
+    cart.splice(index, 1);
+    
+    // Save to localStorage and refresh the UI
+    saveAndRefresh();
+}
 
-        function renderProducts(items) {
-            const grid = document.getElementById('grid');
-            grid.innerHTML = items.map(p => `
-                <div class="product-card">
-                    <div class="img-box"><i class="fas ${p.icon}"></i></div>
-                    <h3>${p.name}</h3>
-                    <p class="price">$${p.price}</p>
-                    <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
-                </div>
-            `).join('');
-            updateUI();
-        }
+function updateUI() {
+    // Update the counter on the nav bar
+    document.getElementById('cart-count').innerText = cart.length;
+    
+    const list = document.getElementById('cartList');
+    const totalEl = document.getElementById('totalPrice');
+    
+    if (cart.length === 0) {
+        list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-gray);">
+                            <i class="fas fa-shopping-basket" style="font-size:2rem; display:block; margin-bottom:10px;"></i>
+                            Your bin is empty.
+                          </div>`;
+        totalEl.innerText = "$0.00";
+        return;
+    }
 
-        function addToCart(id) {
-            const item = products.find(p => p.id === id);
-            cart.push(item);
-            saveAndRefresh();
-        }
-
-        function saveAndRefresh() {
-            localStorage.setItem('techShopCart', JSON.stringify(cart));
-            updateUI();
-        }
-
-        function updateUI() {
-            document.getElementById('cart-count').innerText = cart.length;
-            const list = document.getElementById('cartList');
-            list.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <span>${item.name}</span>
-                    <span>$${item.price}</span>
-                </div>
-            `).join('');
-            
-            const total = cart.reduce((sum, i) => sum + i.price, 0);
-            document.getElementById('totalPrice').innerText = `$${total}`;
-        }
-
-        function toggleModal() {
-            const m = document.getElementById('cartModal');
-            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function handleSearch(input) {
-            const term = input.value.toLowerCase();
-            const filtered = products.filter(p => p.name.toLowerCase().includes(term));
-            renderProducts(filtered);
-        }
-
-        function checkout() {
-            alert("Redirecting to payment...");
-            cart = [];
-            saveAndRefresh();
-            toggleModal();
-        }
-
-        // Initial render
-        renderProducts(products);
+    // Render items with a Delete button
+    list.innerHTML = cart.map((item, index) => `
+        <div class="cart-item">
+            <div class="cart-item-info">
+                <strong>${item.name}</strong>
+                <small style="color:var(--primary-blue)">$${item.price}</small>
+            </div>
+            <button class="remove-btn" onclick="removeFromCart(${index})" title="Remove Item">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </div>
+    `).join('');
+    
+    // Recalculate Total
+    const total = cart.reduce((sum, i) => sum + i.price, 0);
+    totalEl.innerText = `$${total.toFixed(2)}`;
+}
     </script>
 </body>
 </html>
