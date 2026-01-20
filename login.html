@@ -4,7 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechStore | Login</title>
-    <link rel="stylesheet" href="style.css">
+   <style>
+       * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: radial-gradient(circle, #1a1a2e 0%, #16213e 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+h2 { margin-bottom: 10px; }
+.highlight { color: #00d2ff; }
+p { color: #ccc; font-size: 0.9rem; margin-bottom: 30px; }
+
+/* Floating Labels */
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #555;
+    outline: none;
+    color: #fff;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.input-group label {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    color: #888;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus ~ label,
+.input-group input:valid ~ label {
+    top: -15px;
+    font-size: 0.8rem;
+    color: #00d2ff;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #00d2ff;
+    border: none;
+    border-radius: 5px;
+    color: #1a1a2e;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover { background: #009ec2; transform: translateY(-2px); }
+
+.separator { margin: 20px 0; border-bottom: 1px solid #444; position: relative; }
+.separator span { background: #1a1a2e; padding: 0 10px; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); color: #666; font-size: 0.8rem; }
+
+.social-login { display: flex; gap: 10px; margin-bottom: 20px; }
+.social-btn { flex: 1; padding: 10px; background: rgba(255,255,255,0.1); border: none; color: white; border-radius: 5px; cursor: pointer; }
+.social-btn:hover { background: rgba(255,255,255,0.2); }
+
+.signup-link { margin-top: 20px; }
+.signup-link a { color: #00d2ff; text-decoration: none; }
+       
+   </style>
+    
     <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
 </head>
 <body>
